@@ -7,11 +7,7 @@ import {
   updateCandidateService,
 } from "../services/candidates.services.js";
 
-export const createCandidate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createCandidate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const candidate = await createCandidateService(req.body);
 
@@ -25,11 +21,7 @@ export const createCandidate = async (
   }
 };
 
-export const getAllCandidates = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getAllCandidates = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const candidatesData = await getAllCandidatesService(req.query);
 
@@ -42,11 +34,7 @@ export const getAllCandidates = async (
   }
 };
 
-export const getCandidateById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getCandidateById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const candidate = await getCandidateByIdService(req.params.id as string);
 
@@ -66,11 +54,7 @@ export const getCandidateById = async (
   }
 };
 
-export const updateCandidate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const updateCandidate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const candidate = await updateCandidateService(req.params.id as string, req.body);
 
@@ -91,11 +75,7 @@ export const updateCandidate = async (
   }
 };
 
-export const deleteCandidate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const deleteCandidate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const candidate = await deleteCandidateService(req.params.id as string);
 

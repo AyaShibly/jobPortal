@@ -1,1 +1,0 @@
-{"version":3,"file":"candidates.d.ts","sourceRoot":"","sources":["../../src/models/candidates.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,EAAE,EAAE,QAAQ,EAAU,MAAM,UAAU,CAAC;AAEtD,MAAM,WAAW,UAAW,SAAQ,QAAQ;IAC1C,IAAI,EAAE,MAAM,CAAC;IACb,KAAK,EAAE,MAAM,CAAC;IACd,KAAK,EAAE,MAAM,CAAC;IACd,UAAU,EAAE,MAAM,CAAC;IACnB,SAAS,EAAE,IAAI,CAAC;CACjB;AAYD,eAAO,MAAM,SAAS;;;;;;mBAGrB,CAAC"}
