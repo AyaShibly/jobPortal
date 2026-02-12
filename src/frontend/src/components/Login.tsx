@@ -1,214 +1,98 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./login.css";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
-      localStorage.setItem('token', response.data.token);
-      setError('');
-      setTimeout(() => navigate('/'), 1000);
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        { email, password }
+      );
+
+      localStorage.setItem("token", response.data.token);
+      setError("");
+
+      setTimeout(() => navigate("/"), 800);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Login failed. Please try again.');
+      setError(err.response?.data?.error || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.backgroundDecor}></div>
-      <div style={styles.formWrapper}>
-        <div style={styles.headerSection}>
-          <h1 style={styles.logo}>💼 JobPortal</h1>
-          <h2 style={styles.title}>Welcome Back</h2>
-          <p style={styles.subtitle}>Sign in to your account to continue</p>
+    <div className="login-container">
+      {/* Animated background like homepage */}
+      <div className="bg-blur blur1"></div>
+      <div className="bg-blur blur2"></div>
+      <div className="bg-blur blur3"></div>
+
+      <div className="login-wrapper">
+        <div className="login-header">
+          <h1 className="login-logo"> JobPortal</h1>
+          <h2 className="login-title">Welcome Back</h2>
+          <p className="login-subtitle">Sign in to your account to continue</p>
         </div>
 
-        <form onSubmit={handleSubmit} style={styles.form}>
-          {error && <div style={styles.errorBox}>
-            <span style={{ marginRight: '10px' }}>⚠️</span>{error}
-          </div>}
+        <form onSubmit={handleSubmit} className="login-form">
+          {error && (
+            <div className="login-error">
+              <span style={{ marginRight: "10px" }}></span>
+              {error}
+            </div>
+          )}
 
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>📧 Email Address</label>
+          <div className="login-input-group">
+            <label className="login-label"> Email Address</label>
             <input
               type="email"
               placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={styles.input}
+              className="login-input"
               required
             />
           </div>
 
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>🔒 Password</label>
+          <div className="login-input-group">
+            <label className="login-label">Password</label>
             <input
               type="password"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={styles.input}
+              className="login-input"
               required
             />
           </div>
 
-          <button 
-            type="submit" 
-            style={loading ? {...styles.button, ...styles.buttonDisabled} : styles.button}
-            disabled={loading}
-          >
-            {loading ? '🔄 Logging in...' : '🚀 Login'}
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? "🔄 Logging in..." : " Login"}
           </button>
         </form>
 
-        <div style={styles.divider}></div>
+        <div className="login-divider"></div>
 
-        <p style={styles.switchText}>
-          Don't have an account? 
-          <span 
-            style={styles.switchLink}
-            onClick={() => navigate('/register')}
-          >
+        <p className="login-switch">
+          Don't have an account?
+          <span className="login-link" onClick={() => navigate("/register")}>
             Create one
           </span>
         </p>
       </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    position: 'relative' as const,
-    overflow: 'hidden',
-  },
-  backgroundDecor: {
-    position: 'absolute' as const,
-    width: '400px',
-    height: '400px',
-    background: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: '50%',
-    top: '-50px',
-    right: '-50px',
-  },
-  formWrapper: {
-    background: 'white',
-    borderRadius: '20px',
-    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-    width: '100%',
-    maxWidth: '420px',
-    padding: '50px 40px',
-    position: 'relative' as const,
-    zIndex: 10,
-  },
-  headerSection: {
-    textAlign: 'center' as const,
-    marginBottom: '35px',
-  },
-  logo: {
-    fontSize: '32px',
-    color: '#667eea',
-    marginBottom: '10px',
-    fontWeight: 'bold',
-  },
-  title: {
-    fontSize: '28px',
-    color: '#1a1a1a',
-    marginBottom: '8px',
-    fontWeight: '700',
-  },
-  subtitle: {
-    fontSize: '14px',
-    color: '#888',
-    marginTop: '5px',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-  },
-  inputGroup: {
-    marginBottom: '20px',
-  },
-  label: {
-    display: 'block',
-    fontSize: '14px',
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: '8px',
-  },
-  input: {
-    width: '100%',
-    padding: '12px 14px',
-    border: '2px solid #e0e0e0',
-    borderRadius: '10px',
-    fontSize: '15px',
-    transition: 'all 0.3s ease',
-    boxSizing: 'border-box' as const,
-    outline: 'none',
-  } as React.CSSProperties,
-  button: {
-    width: '100%',
-    padding: '13px 14px',
-    backgroundColor: '#667eea',
-    color: 'white',
-    border: 'none',
-    borderRadius: '10px',
-    fontSize: '16px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    marginTop: '10px',
-  } as React.CSSProperties,
-  buttonDisabled: {
-    opacity: 0.7,
-    cursor: 'not-allowed',
-  },
-  errorBox: {
-    background: '#fff3cd',
-    border: '2px solid #ffc107',
-    color: '#856404',
-    padding: '12px 14px',
-    borderRadius: '10px',
-    marginBottom: '20px',
-    fontSize: '14px',
-    display: 'flex',
-    alignItems: 'center',
-  } as React.CSSProperties,
-  divider: {
-    height: '1px',
-    background: '#e0e0e0',
-    margin: '25px 0',
-  },
-  switchText: {
-    textAlign: 'center' as const,
-    fontSize: '14px',
-    color: '#666',
-    margin: 0,
-  },
-  switchLink: {
-    color: '#667eea',
-    fontWeight: '600',
-    cursor: 'pointer',
-    marginLeft: '5px',
-    transition: 'all 0.2s ease',
-  },
 };
 
 export default Login;
