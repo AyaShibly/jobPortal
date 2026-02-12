@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "Job Portal API",
+    "description": "Job Portal CRUD API Testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Create Job",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Senior Backend Developer\",\n  \"company\": \"Amazon\",\n  \"location\": \"Remote\",\n  \"salary\": \"15 LPA\",\n  \"description\": \"Build scalable cloud solutions\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/jobs",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "jobs"]
+        }
+      }
+    },
+    {
+      "name": "2. Create Job 2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Frontend Developer\",\n  \"company\": \"Google\",\n  \"location\": \"Mountain View, CA\",\n  \"salary\": \"12 LPA\",\n  \"description\": \"Build amazing user interfaces\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/jobs",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "jobs"]
+        }
+      }
+    },
+    {
+      "name": "3. Get All Jobs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/jobs",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "jobs"]
+        }
+      }
+    },
+    {
+      "name": "4. Update Job (Update Salary)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"salary\": \"18 LPA\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/jobs/{{jobId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "jobs", "{{jobId}}"]
+        }
+      }
+    },
+    {
+      "name": "5. Update Job (Full Details)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Lead Backend Developer\",\n  \"company\": \"Amazon\",\n  \"location\": \"New York, NY\",\n  \"salary\": \"20 LPA\",\n  \"description\": \"Lead a team of engineers\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/jobs/{{jobId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "jobs", "{{jobId}}"]
+        }
+      }
+    },
+    {
+      "name": "6. Delete Job",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/jobs/{{jobId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "jobs", "{{jobId}}"]
+        }
+      }
+    }
+  ]
+}

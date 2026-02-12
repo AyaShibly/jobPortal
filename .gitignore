@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+*/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production builds
+/dist/
+/build/
+src/frontend/build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Old structure (deprecated)
+client/
+
+# Test
+coverage/
+__tests__/
