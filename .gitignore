@@ -1,14 +1,9 @@
 # Dependencies
 node_modules/
-*/node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # Production builds
-/dist/
-/build/
-src/frontend/build/
+dist/
+build/
 
 # Environment variables
 .env
@@ -25,9 +20,6 @@ src/frontend/build/
 
 # OS
 Thumbs.db
-
-# Old structure (deprecated)
-client/
 
 # Test
 coverage/
