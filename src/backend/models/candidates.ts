@@ -4,7 +4,9 @@ export interface ICandidate extends Document {
   name: string;
   email: string;
   phone: string;
-  resumeLink: string;
+  resume?: string;
+  skills: string[];
+  experience: number;
   createdAt: Date;
 }
 
@@ -13,12 +15,16 @@ const candidateSchema = new Schema<ICandidate>(
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true },
     phone: { type: String, required: true },
-    resumeLink: { type: String, required: true },
+    resume: { type: String },
+    skills: { type: [String], default: [] },
+    experience: { type: Number, default: 0 }
   },
   { timestamps: true }
 );
 
-export const Candidate = mongoose.model<ICandidate>(
+const Candidate = mongoose.model<ICandidate>(
   "Candidate",
   candidateSchema
 );
+
+export default Candidate;

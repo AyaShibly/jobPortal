@@ -1,8 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import ApplicationForm from "./ApplicationForm";
 import "./home.css";
 
+interface Job {
+  _id: string;
+  title: string;
+  company: string;
+  location: string;
+  salary: number;
+  type: string;
+  status: string;
+}
+
 export default function Home() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [showApplicationForm, setShowApplicationForm] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState<string>('');
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/jobs');
+      const openJobs = (res.data.jobs || []).filter((job: Job) => job.status === 'open');
+      setJobs(openJobs.slice(0, 6)); // Get first 6 open jobs
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+    }
+  };
+
+  const handleApplyClick = (jobId: string) => {
+    setSelectedJobId(jobId);
+    setShowApplicationForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowApplicationForm(false);
+    setSelectedJobId('');
+  };
+
+  const handleApplicationSuccess = () => {
+    fetchJobs();
+  };
+
   return (
     <div className="home-container">
       {/* Background blur animation */}
@@ -21,6 +65,7 @@ export default function Home() {
           <a href="#jobs">Jobs</a>
           <a href="#categories">Categories</a>
           <a href="#about">About</a>
+          <Link to="/admin">Admin</Link>
         </div>
 
         <div className="nav-buttons">
@@ -80,26 +125,20 @@ export default function Home() {
         </p>
 
         <div className="jobs-grid">
-          <div className="job-card">
-            <h3>Frontend Developer</h3>
-            <p>Company: Google</p>
-            <span> Remote</span>
-            <button>Apply</button>
-          </div>
-
-          <div className="job-card">
-            <h3>Backend Developer</h3>
-            <p>Company: Amazon</p>
-            <span> Germany</span>
-            <button>Apply</button>
-          </div>
-
-          <div className="job-card">
-            <h3>UI/UX Designer</h3>
-            <p>Company: Meta</p>
-            <span> Dubai</span>
-            <button>Apply</button>
-          </div>
+          {jobs.length > 0 ? (
+            jobs.map((job) => (
+              <div className="job-card" key={job._id}>
+                <h3>{job.title}</h3>
+                <p>Company: {job.company}</p>
+                <span>📍 {job.location}</span>
+                <p className="job-type">{job.type}</p>
+                <p className="job-salary">${job.salary.toLocaleString()}</p>
+                <button onClick={() => handleApplyClick(job._id)}>Apply Now</button>
+              </div>
+            ))
+          ) : (
+            <p>Loading jobs...</p>
+          )}
         </div>
       </section>
 
@@ -149,6 +188,15 @@ export default function Home() {
       <footer className="footer">
         <p>© 2026 JobPortal. All rights reserved.</p>
       </footer>
+
+      {/* APPLICATION FORM MODAL */}
+      {showApplicationForm && (
+        <ApplicationForm
+          jobId={selectedJobId}
+          onClose={handleCloseForm}
+          onSuccess={handleApplicationSuccess}
+        />
+      )}
     </div>
   );
 }

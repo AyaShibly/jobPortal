@@ -6,8 +6,8 @@ import {
   getAllCandidates,
   getCandidateById,
   updateCandidate,
-} from "../controllers/candidates.controllers.js";
-import { validateRequest } from "../middlewares/validateRequest.js";
+} from "../controllers/candidates.controller";
+import { validateRequest } from "../middleware/validateRequest";
 
 const router = express.Router();
 
@@ -17,7 +17,9 @@ router.post(
     body("name").notEmpty().withMessage("Name is required"),
     body("email").isEmail().withMessage("Valid email is required"),
     body("phone").notEmpty().withMessage("Phone is required"),
-    body("resumeLink").notEmpty().withMessage("Resume link is required"),
+    body("resume").optional().isString(),
+    body("skills").optional().isArray(),
+    body("experience").optional().isNumeric(),
   ],
   validateRequest,
   createCandidate

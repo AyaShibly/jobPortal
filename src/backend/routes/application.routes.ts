@@ -6,28 +6,42 @@ import {
   getAllApplications,
   getApplicationById,
   updateApplication,
-} from "../controllers/application.controllers.js";
-import { validateRequest } from "../middlewares/validateRequest.js";
+} from "../controllers/application.controller";
+import { validateRequest } from "../middleware/validateRequest";
+import { authenticateToken } from "../middleware/auth";
 
 const router = express.Router();
 
+// CREATE APPLICATION - Public (users can apply)
 router.post(
   "/",
   [
     body("candidateId").notEmpty().withMessage("Candidate ID is required"),
     body("jobId").notEmpty().withMessage("Job ID is required"),
-    body("status")
-      .optional()
-      .isIn(["pending", "reviewed", "accepted", "rejected"])
-      .withMessage("Status must be pending, reviewed, accepted, or rejected"),
+    body("coverLetter").optional().isString(),
   ],
   validateRequest,
   createApplication
 );
 
-router.get("/", getAllApplications);
-router.get("/:id", getApplicationById);
-router.put("/:id", updateApplication);
-router.delete("/:id", deleteApplication);
+// GET ALL APPLICATIONS - Protected
+router.get("/", authenticateToken, getAllApplications);
+
+// GET SINGLE APPLICATION - Protected
+router.get("/:id", authenticateToken, getApplicationById);
+
+// UPDATE APPLICATION - Protected (admin updates status)
+router.put(
+  "/:id", 
+  authenticateToken,
+  [
+    body("status").optional().isIn(["pending", "reviewed", "accepted", "rejected"]),
+  ],
+  validateRequest,
+  updateApplication
+);
+
+// DELETE APPLICATION - Protected
+router.delete("/:id", authenticateToken, deleteApplication);
 
 export default router;

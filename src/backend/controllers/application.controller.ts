@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { Application } from "../models/application.js";
+import Application from "../models/application";
 
 export const createApplication = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -8,7 +8,7 @@ export const createApplication = async (req: Request, res: Response, next: NextF
     res.status(201).json({
       success: true,
       message: "Application created successfully",
-      application,
+      data: application,
     });
   } catch (error) {
     next(error);
@@ -23,7 +23,6 @@ export const getAllApplications = async ( req: Request, res: Response, next: Nex
 
     res.status(200).json({
       success: true,
-      results: applications.length,
       applications,
     });
   } catch (error) {
@@ -76,7 +75,7 @@ export const updateApplication = async (req: Request, res: Response, next: NextF
     res.status(200).json({
       success: true,
       message: "Application updated successfully",
-      application,
+      data: application,
     });
   } catch (error) {
     next(error);

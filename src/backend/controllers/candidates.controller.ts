@@ -1,20 +1,14 @@
 import type { Request, Response, NextFunction } from "express";
-import {
-  createCandidateService,
-  deleteCandidateService,
-  getAllCandidatesService,
-  getCandidateByIdService,
-  updateCandidateService,
-} from "../services/candidates.services.js";
+import Candidate from "../models/candidates";
 
 export const createCandidate = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const candidate = await createCandidateService(req.body);
+    const candidate = await Candidate.create(req.body);
 
     res.status(201).json({
       success: true,
       message: "Candidate created successfully",
-      candidate,
+      data: candidate,
     });
   } catch (error) {
     next(error);
@@ -23,11 +17,11 @@ export const createCandidate = async (req: Request, res: Response, next: NextFun
 
 export const getAllCandidates = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const candidatesData = await getAllCandidatesService(req.query);
+    const candidates = await Candidate.find();
 
     res.status(200).json({
       success: true,
-      ...candidatesData,
+      candidates,
     });
   } catch (error) {
     next(error);
@@ -36,7 +30,7 @@ export const getAllCandidates = async (req: Request, res: Response, next: NextFu
 
 export const getCandidateById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const candidate = await getCandidateByIdService(req.params.id as string);
+    const candidate = await Candidate.findById(req.params.id);
 
     if (!candidate) {
       return res.status(404).json({
@@ -47,7 +41,7 @@ export const getCandidateById = async (req: Request, res: Response, next: NextFu
 
     res.status(200).json({
       success: true,
-      candidate,
+      data: candidate,
     });
   } catch (error) {
     next(error);
@@ -56,7 +50,11 @@ export const getCandidateById = async (req: Request, res: Response, next: NextFu
 
 export const updateCandidate = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const candidate = await updateCandidateService(req.params.id as string, req.body);
+    const candidate = await Candidate.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
 
     if (!candidate) {
       return res.status(404).json({
@@ -68,7 +66,7 @@ export const updateCandidate = async (req: Request, res: Response, next: NextFun
     res.status(200).json({
       success: true,
       message: "Candidate updated successfully",
-      candidate,
+      data: candidate,
     });
   } catch (error) {
     next(error);
@@ -77,7 +75,7 @@ export const updateCandidate = async (req: Request, res: Response, next: NextFun
 
 export const deleteCandidate = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const candidate = await deleteCandidateService(req.params.id as string);
+    const candidate = await Candidate.findByIdAndDelete(req.params.id);
 
     if (!candidate) {
       return res.status(404).json({
