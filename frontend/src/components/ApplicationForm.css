@@ -71,7 +71,7 @@
 .form-field textarea:focus,
 .form-field select:focus {
   outline: none;
-  border-color: #6a5cff;
+  border-color: #ef4444;
   box-shadow: 0 0 0 3px rgba(106, 92, 255, 0.1);
 }
 
@@ -97,7 +97,7 @@
 }
 
 .btn-submit {
-  background: linear-gradient(135deg, #6a5cff, #3a82ff);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
 }
 
