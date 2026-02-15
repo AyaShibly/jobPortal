@@ -24,7 +24,7 @@
 .blur1 {
   width: 320px;
   height: 320px;
-  background: #ef4444;
+  background: #10b981;
   top: 90px;
   left: 80px;
 }
@@ -32,7 +32,7 @@
 .blur2 {
   width: 370px;
   height: 370px;
-  background: #dc2626;
+  background: #059669;
   bottom: 60px;
   right: 90px;
   animation-delay: 2s;
@@ -41,7 +41,7 @@
 .blur3 {
   width: 260px;
   height: 260px;
-  background: #f87171;
+  background: #34d399;
   top: 260px;
   right: 350px;
   animation-delay: 4s;
@@ -85,7 +85,7 @@
 
 .login-logo {
   font-size: 32px;
-  color: #dc2626;
+  color: #059669;
   margin-bottom: 10px;
   font-weight: 900;
 }
@@ -133,7 +133,7 @@
 }
 
 .login-input:focus {
-  border-color: #dc2626;
+  border-color: #059669;
   box-shadow: 0px 0px 0px 4px rgba(58, 130, 255, 0.18);
 }
 
@@ -149,7 +149,7 @@
   font-size: 16px;
   color: white;
 
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, #10b981, #059669);
   box-shadow: 0px 12px 25px rgba(76, 123, 255, 0.3);
 
   transition: 0.3s;
@@ -196,7 +196,7 @@
 }
 
 .login-link {
-  color: #dc2626;
+  color: #059669;
   font-weight: 800;
   cursor: pointer;
   margin-left: 6px;

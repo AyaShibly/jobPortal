@@ -26,7 +26,7 @@
 .blur1 {
   width: 330px;
   height: 330px;
-  background: #ef4444;
+  background: #10b981;
   top: 90px;
   left: 90px;
 }
@@ -34,7 +34,7 @@
 .blur2 {
   width: 390px;
   height: 390px;
-  background: #dc2626;
+  background: #059669;
   bottom: 50px;
   right: 90px;
   animation-delay: 2s;
@@ -43,7 +43,7 @@
 .blur3 {
   width: 350px;
   height: 350px;
-  background: #f87171;
+  background: #34d399;
   top: 50%;
   left: 50%;
   animation-delay: 4s;
@@ -110,13 +110,13 @@
 
 .admin-nav button:hover {
   transform: translateY(-2px);
-  border-color: #dc2626;
-  color: #dc2626;
+  border-color: #059669;
+  color: #059669;
   box-shadow: 0px 10px 20px rgba(58, 130, 255, 0.15);
 }
 
 .admin-nav button.active {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   border-color: transparent;
   box-shadow: 0px 12px 24px rgba(76, 123, 255, 0.3);
@@ -163,8 +163,8 @@
   transition: width 0.3s ease;
 }
 
-.stat-card.stat-purple::before { background: #ef4444; }
-.stat-card.stat-blue::before { background: #dc2626; }
+.stat-card.stat-purple::before { background: #10b981; }
+.stat-card.stat-blue::before { background: #059669; }
 .stat-card.stat-green::before { background: #10b981; }
 .stat-card.stat-orange::before { background: #f59e0b; }
 
@@ -244,7 +244,7 @@
 
 .action-btn:hover {
   transform: translateY(-3px);
-  border-color: #ef4444;
+  border-color: #10b981;
   box-shadow: 0px 12px 30px rgba(106, 92, 255, 0.15);
 }
 
@@ -302,7 +302,7 @@
 }
 
 .activity-item:hover {
-  border-color: #ef4444;
+  border-color: #10b981;
   box-shadow: 0px 8px 20px rgba(106, 92, 255, 0.1);
 }
 
@@ -310,7 +310,7 @@
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   display: flex;
   align-items: center;
@@ -375,7 +375,7 @@
   padding: 14px 28px;
   border: none;
   border-radius: 14px;
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   font-size: 14px;
   font-weight: 900;
@@ -410,7 +410,7 @@
 .job-card-item:hover {
   transform: translateY(-5px);
   box-shadow: 0px 18px 45px rgba(0, 0, 0, 0.18);
-  border-color: #ef4444;
+  border-color: #10b981;
 }
 
 .card-header {
@@ -458,14 +458,14 @@
 .candidate-card-item:hover {
   transform: translateY(-5px);
   box-shadow: 0px 18px 45px rgba(0, 0, 0, 0.18);
-  border-color: #dc2626;
+  border-color: #059669;
 }
 
 .candidate-avatar {
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   display: flex;
   align-items: center;
@@ -500,7 +500,7 @@
 .skill-tag {
   padding: 6px 12px;
   background: rgba(106, 92, 255, 0.1);
-  color: #ef4444;
+  color: #10b981;
   border-radius: 10px;
   font-size: 12px;
   font-weight: 800;
@@ -523,7 +523,7 @@
 
 .badge-closed {
   background: rgba(239, 68, 68, 0.15);
-  color: #dc2626;
+  color: #059669;
 }
 
 /* ACTION BUTTONS */
@@ -555,7 +555,7 @@
 
 .btn-delete {
   background: rgba(239, 68, 68, 0.12);
-  color: #ef4444;
+  color: #10b981;
 }
 
 .btn-delete:hover {
@@ -590,7 +590,7 @@
 
 .status-rejected {
   background: rgba(239, 68, 68, 0.15);
-  color: #dc2626;
+  color: #059669;
 }
 
 /* TABLE WRAPPER (for applications) */
@@ -655,7 +655,7 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   display: flex;
   align-items: center;
@@ -675,7 +675,7 @@
   padding: 8px 14px;
   border: 2px solid rgba(106, 92, 255, 0.2);
   background: white;
-  color: #ef4444;
+  color: #10b981;
   border-radius: 10px;
   font-size: 12px;
   font-weight: 800;
@@ -685,7 +685,7 @@
 
 .status-btn:hover:not(:disabled) {
   background: rgba(106, 92, 255, 0.1);
-  border-color: #ef4444;
+  border-color: #10b981;
   transform: translateY(-2px);
 }
 
@@ -701,12 +701,12 @@
 
 .status-btn.danger {
   border-color: rgba(239, 68, 68, 0.3);
-  color: #ef4444;
+  color: #10b981;
 }
 
 .status-btn.danger:hover:not(:disabled) {
   background: rgba(239, 68, 68, 0.1);
-  border-color: #ef4444;
+  border-color: #10b981;
 }
 
 .status-btn:disabled {
@@ -810,7 +810,7 @@
 .form-field textarea:focus,
 .form-field select:focus {
   outline: none;
-  border-color: #ef4444;
+  border-color: #10b981;
   box-shadow: 0 0 0 3px rgba(106, 92, 255, 0.1);
 }
 
@@ -845,7 +845,7 @@
 }
 
 .btn-save {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   box-shadow: 0px 10px 22px rgba(76, 123, 255, 0.3);
 }
