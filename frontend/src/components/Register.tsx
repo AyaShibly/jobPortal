@@ -71,8 +71,8 @@ const Register: React.FC = () => {
               onChange={(e) => setUsername(e.target.value)}
               style={styles.input}
               onFocus={(e) => {
-                e.target.style.border = "2px solid #3a82ff";
-                e.target.style.boxShadow = "0px 0px 0px 4px rgba(58, 130, 255, 0.18)";
+                e.target.style.border = "2px solid #059669";
+                e.target.style.boxShadow = "0px 0px 0px 4px rgba(5, 150, 105, 0.18)";
               }}
               onBlur={(e) => {
                 e.target.style.border = "2px solid #e5e7eb";
@@ -93,8 +93,8 @@ const Register: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               style={styles.input}
               onFocus={(e) => {
-                e.target.style.border = "2px solid #3a82ff";
-                e.target.style.boxShadow = "0px 0px 0px 4px rgba(58, 130, 255, 0.18)";
+                e.target.style.border = "2px solid #059669";
+                e.target.style.boxShadow = "0px 0px 0px 4px rgba(5, 150, 105, 0.18)";
               }}
               onBlur={(e) => {
                 e.target.style.border = "2px solid #e5e7eb";
@@ -114,8 +114,8 @@ const Register: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               style={styles.input}
               onFocus={(e) => {
-                e.target.style.border = "2px solid #3a82ff";
-                e.target.style.boxShadow = "0px 0px 0px 4px rgba(58, 130, 255, 0.18)";
+                e.target.style.border = "2px solid #059669";
+                e.target.style.boxShadow = "0px 0px 0px 4px rgba(5, 150, 105, 0.18)";
               }}
               onBlur={(e) => {
                 e.target.style.border = "2px solid #e5e7eb";
@@ -187,7 +187,7 @@ const styles = {
     position: "absolute" as const,
     width: "360px",
     height: "360px",
-    background: "#6a5cff",
+    background: "#10b981",
     borderRadius: "50%",
     filter: "blur(100px)",
     opacity: 0.4,
@@ -200,7 +200,7 @@ const styles = {
     position: "absolute" as const,
     width: "420px",
     height: "420px",
-    background: "#3a82ff",
+    background: "#059669",
     borderRadius: "50%",
     filter: "blur(120px)",
     opacity: 0.35,
@@ -213,7 +213,7 @@ const styles = {
     position: "absolute" as const,
     width: "290px",
     height: "290px",
-    background: "#9bbcff",
+    background: "#34d399",
     borderRadius: "50%",
     filter: "blur(110px)",
     opacity: 0.35,
@@ -245,7 +245,7 @@ const styles = {
 
   logo: {
     fontSize: "32px",
-    color: "#3a82ff",
+    color: "#059669",
     marginBottom: "10px",
     fontWeight: "900",
   },
@@ -303,7 +303,7 @@ const styles = {
   button: {
     width: "100%",
     padding: "14px 14px",
-    background: "linear-gradient(135deg, #6a5cff, #3a82ff)",
+    background: "linear-gradient(135deg, #10b981, #059669)",
     color: "white",
     border: "none",
     borderRadius: "12px",
@@ -348,7 +348,7 @@ const styles = {
   },
 
   switchLink: {
-    color: "#3a82ff",
+    color: "#059669",
     fontWeight: "900",
     cursor: "pointer",
     marginLeft: "5px",
