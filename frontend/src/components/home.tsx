@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import ApplicationForm from "./ApplicationForm";
 import "./home.css";
 
 interface Job {
@@ -16,8 +15,6 @@ interface Job {
 
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
-  const [showApplicationForm, setShowApplicationForm] = useState(false);
-  const [selectedJobId, setSelectedJobId] = useState<string>('');
 
   useEffect(() => {
     fetchJobs();
@@ -31,20 +28,6 @@ export default function Home() {
     } catch (error) {
       console.error('Error fetching jobs:', error);
     }
-  };
-
-  const handleApplyClick = (jobId: string) => {
-    setSelectedJobId(jobId);
-    setShowApplicationForm(true);
-  };
-
-  const handleCloseForm = () => {
-    setShowApplicationForm(false);
-    setSelectedJobId('');
-  };
-
-  const handleApplicationSuccess = () => {
-    fetchJobs();
   };
 
   return (
@@ -133,7 +116,6 @@ export default function Home() {
                 <span>📍 {job.location}</span>
                 <p className="job-type">{job.type}</p>
                 <p className="job-salary">${job.salary.toLocaleString()}</p>
-                <button onClick={() => handleApplyClick(job._id)}>Apply Now</button>
               </div>
             ))
           ) : (
@@ -188,15 +170,6 @@ export default function Home() {
       <footer className="footer">
         <p>© 2026 JobPortal. All rights reserved.</p>
       </footer>
-
-      {/* APPLICATION FORM MODAL */}
-      {showApplicationForm && (
-        <ApplicationForm
-          jobId={selectedJobId}
-          onClose={handleCloseForm}
-          onSuccess={handleApplicationSuccess}
-        />
-      )}
     </div>
   );
 }
