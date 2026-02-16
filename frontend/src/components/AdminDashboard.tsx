@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './admin.css';
@@ -47,7 +47,9 @@ const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const getToken = () => localStorage.getItem('token');
-  const axiosConfig = { headers: { Authorization: `Bearer ${getToken()}` } };
+  const axiosConfig = useMemo(() => ({ 
+    headers: { Authorization: `Bearer ${getToken()}` } 
+  }), []);
 
   // Check login status
   useEffect(() => {
@@ -61,42 +63,34 @@ const AdminDashboard: React.FC = () => {
     navigate('/');
   };
 
-  // Fetch all data
-  useEffect(() => {
-    fetchJobs();
-    fetchCandidates();
-    fetchApplications();
-    fetchSavedJobs();
-  }, []);
-
-  const fetchJobs = async () => {
+  const fetchJobs = useCallback(async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/jobs');
       setJobs(res.data.jobs || []);
     } catch (error) {
       console.error('Error fetching jobs:', error);
     }
-  };
+  }, []);
 
-  const fetchCandidates = async () => {
+  const fetchCandidates = useCallback(async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/candidates');
       setCandidates(res.data.candidates || []);
     } catch (error) {
       console.error('Error fetching candidates:', error);
     }
-  };
+  }, []);
 
-  const fetchApplications = async () => {
+  const fetchApplications = useCallback(async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/applications', axiosConfig);
       setApplications(res.data.applications || []);
     } catch (error) {
       console.error('Error fetching applications:', error);
     }
-  };
+  }, [axiosConfig]);
 
-  const fetchSavedJobs = async () => {
+  const fetchSavedJobs = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
@@ -107,7 +101,15 @@ const AdminDashboard: React.FC = () => {
     } catch (error) {
       console.error('Error fetching saved jobs:', error);
     }
-  };
+  }, []);
+
+  // Fetch all data
+  useEffect(() => {
+    fetchJobs();
+    fetchCandidates();
+    fetchApplications();
+    fetchSavedJobs();
+  }, [fetchJobs, fetchCandidates, fetchApplications, fetchSavedJobs]);
 
   // Calculate stats
   const stats = {
