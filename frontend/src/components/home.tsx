@@ -59,7 +59,7 @@ export default function Home() {
           <a href="#jobs">Jobs</a>
           <a href="#categories">Categories</a>
           <a href="#about">About</a>
-          <Link to="/admin">Admin</Link>
+          {isLoggedIn && <Link to="/admin">Admin</Link>}
         </div>
 
         <div className="nav-buttons">

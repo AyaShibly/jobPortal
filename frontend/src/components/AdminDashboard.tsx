@@ -189,6 +189,7 @@ const AdminDashboard: React.FC = () => {
           <a href="#jobs">Jobs</a>
           <a href="#categories">Categories</a>
           <a href="#about">About</a>
+          {isLoggedIn && <Link to="/admin">Admin</Link>}
         </div>
 
         <div className="nav-buttons">

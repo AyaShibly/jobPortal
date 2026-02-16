@@ -1,71 +1,50 @@
-import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import type { Request, Response } from "express";
 import User from "../models/User";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-// REGISTER
-export const register = async (req: Request, res: Response): Promise<void> => {
+const JWT_SECRET = process.env.JWT_SECRET as string;
+
+export const signup = async (req: Request, res: Response) => {
+  const { username, email, password } = req.body;
+
   try {
-    const { username, email, password } = req.body;
-
-    // Check if user already exists
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      res.status(400).json({ error: "User already exists" });
-      return;
+      return res.status(400).json({ message: "User already exists" });
     }
 
-    // Create new user
-    const user = await User.create({ username, email, password });
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generate JWT token
-    const token = jwt.sign(
-      { id: user._id, username: user.username },
-      process.env.JWT_SECRET || "your-secret-key",
-      { expiresIn: "1h" }
-    );
-
-    res.status(201).json({
-      message: "User registered successfully",
-      token,
-      user: { id: user._id, username: user.username, email: user.email }
+    const user = new User({
+      username,
+      email,
+      password: hashedPassword,
     });
-  } catch (err: any) {
-    res.status(400).json({ error: err.message });
+
+    await user.save();
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
+
+    res.status(201).json({ user: { id: user._id, username, email }, token });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 };
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
 
-// LOGIN
-export const login = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password } = req.body;
-
-    // Find user by email
     const user = await User.findOne({ email });
-    if (!user) {
-      res.status(400).json({ error: "Invalid credentials" });
-      return;
-    }
+    if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
-    // Check password
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      res.status(400).json({ error: "Invalid credentials" });
-      return;
-    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-    // Generate JWT token
-    const token = jwt.sign(
-      { id: user._id, username: user.username },
-      process.env.JWT_SECRET || "your-secret-key",
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
 
-    res.json({
-      message: "Login successful",
-      token,
-      user: { id: user._id, username: user.username, email: user.email }
-    });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+    res.json({ user: { id: user._id, username: user.username, email }, token });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 };
