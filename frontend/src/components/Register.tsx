@@ -279,6 +279,7 @@ const styles = {
     fontWeight: "800",
     color: "#111827",
     marginBottom: "8px",
+    textAlign: "left" as const,
   },
 
   hint: {

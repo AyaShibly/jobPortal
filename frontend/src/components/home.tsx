@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./home.css";
 
@@ -15,9 +15,14 @@ interface Job {
 
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchJobs();
+    // Check login status
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
   }, []);
 
   const fetchJobs = async () => {
@@ -28,6 +33,12 @@ export default function Home() {
     } catch (error) {
       console.error('Error fetching jobs:', error);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/');
   };
 
   return (
@@ -52,12 +63,20 @@ export default function Home() {
         </div>
 
         <div className="nav-buttons">
-          <Link to="/login" className="btn-login">
-            Login
-          </Link>
-          <Link to="/register" className="btn-signup">
-            Sign Up
-          </Link>
+          {isLoggedIn ? (
+            <button onClick={handleLogout} className="btn-login">
+              Logout
+            </button>
+          ) : (
+            <>
+              <Link to="/login" className="btn-login">
+                Login
+              </Link>
+              <Link to="/register" className="btn-signup">
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </nav>
 

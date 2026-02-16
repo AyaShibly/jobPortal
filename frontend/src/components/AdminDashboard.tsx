@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './admin.css';
 
@@ -41,9 +42,23 @@ const AdminDashboard: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<'job' | 'candidate'>('job');
   const [editItem, setEditItem] = useState<any>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const getToken = () => localStorage.getItem('token');
   const axiosConfig = { headers: { Authorization: `Bearer ${getToken()}` } };
+
+  // Check login status
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/');
+  };
 
   // Fetch all data
   useEffect(() => {
@@ -161,6 +176,38 @@ const AdminDashboard: React.FC = () => {
       <div className="bg-blur blur1"></div>
       <div className="bg-blur blur2"></div>
       <div className="bg-blur blur3"></div>
+
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="logo">
+          <div className="logo-icon">JP</div>
+          <span className="logo-text">JobPortal</span>
+        </div>
+
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          <a href="#jobs">Jobs</a>
+          <a href="#categories">Categories</a>
+          <a href="#about">About</a>
+        </div>
+
+        <div className="nav-buttons">
+          {isLoggedIn ? (
+            <button onClick={handleLogout} className="btn-login">
+              Logout
+            </button>
+          ) : (
+            <>
+              <Link to="/login" className="btn-login">
+                Login
+              </Link>
+              <Link to="/register" className="btn-signup">
+                Sign Up
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
 
       {/* Header */}
       <header className="admin-header">
