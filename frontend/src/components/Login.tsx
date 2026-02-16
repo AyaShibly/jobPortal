@@ -25,7 +25,8 @@ const Login: React.FC = () => {
 
       setTimeout(() => navigate("/"), 800);
     } catch (err: any) {
-      setError(err.response?.data?.error || "Login failed. Please try again.");
+      const errMsg = err.response?.data?.error || err.response?.data?.message || "Login failed. Please try again.";
+      setError(typeof errMsg === 'string' ? errMsg : "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }

@@ -32,7 +32,8 @@ const Register: React.FC = () => {
 
       setTimeout(() => navigate("/"), 1000);
     } catch (err: any) {
-      setError(err.response?.data?.error || "Registration failed. Please try again.");
+      const errMsg = err.response?.data?.error || err.response?.data?.message || "Registration failed. Please try again.";
+      setError(typeof errMsg === 'string' ? errMsg : "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }

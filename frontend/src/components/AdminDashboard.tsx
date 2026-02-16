@@ -318,12 +318,12 @@ const AdminDashboard: React.FC = () => {
             <div className="recent-activity">
               <h2>📌 Recent Applications</h2>
               <div className="activity-list">
-                {applications.slice(0, 5).map((app) => (
+                {applications.slice(0, 5).filter(app => app.candidateId && app.jobId && typeof app.candidateId === 'object' && typeof app.jobId === 'object').map((app) => (
                   <div key={app._id} className="activity-item">
-                    <div className="activity-avatar">{app.candidateId?.name?.charAt(0)}</div>
+                    <div className="activity-avatar">{app.candidateId?.name?.charAt(0) || '?'}</div>
                     <div className="activity-details">
-                      <strong>{app.candidateId?.name}</strong>
-                      <p>Applied for {app.jobId?.title} at {app.jobId?.company}</p>
+                      <strong>{app.candidateId?.name || 'Unknown'}</strong>
+                      <p>Applied for {app.jobId?.title || 'Unknown Position'} at {app.jobId?.company || 'Unknown Company'}</p>
                       <small>{new Date(app.createdAt).toLocaleDateString()}</small>
                     </div>
                     <span className={`status-badge status-${app.status}`}>{app.status}</span>
@@ -418,20 +418,20 @@ const AdminDashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {applications.map((app) => (
+                  {applications.filter(app => app.candidateId && app.jobId && typeof app.candidateId === 'object' && typeof app.jobId === 'object').map((app) => (
                     <tr key={app._id}>
                       <td>
                         <div className="candidate-info">
-                          <div className="table-avatar">{app.candidateId?.name?.charAt(0)}</div>
+                          <div className="table-avatar">{app.candidateId?.name?.charAt(0) || '?'}</div>
                           <div>
-                            <strong>{app.candidateId?.name}</strong>
-                            <small>{app.candidateId?.email}</small>
+                            <strong>{app.candidateId?.name || 'Unknown'}</strong>
+                            <small>{app.candidateId?.email || 'No email'}</small>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <strong>{app.jobId?.title}</strong>
-                        <small>{app.jobId?.company}</small>
+                        <strong>{app.jobId?.title || 'Unknown Position'}</strong>
+                        <small>{app.jobId?.company || 'Unknown Company'}</small>
                       </td>
                       <td>{new Date(app.createdAt).toLocaleDateString()}</td>
                       <td>
