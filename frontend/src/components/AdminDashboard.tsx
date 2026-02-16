@@ -35,10 +35,11 @@ interface Application {
 }
 
 const AdminDashboard: React.FC = () => {
-  const [activeSection, setActiveSection] = useState<'overview' | 'jobs' | 'candidates' | 'applications'>('overview');
+  const [activeSection, setActiveSection] = useState<'overview' | 'jobs' | 'candidates' | 'applications' | 'saved-jobs'>('overview');
   const [jobs, setJobs] = useState<Job[]>([]);
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [applications, setApplications] = useState<Application[]>([]);
+  const [savedJobs, setSavedJobs] = useState<Job[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<'job' | 'candidate'>('job');
   const [editItem, setEditItem] = useState<any>(null);
@@ -65,6 +66,7 @@ const AdminDashboard: React.FC = () => {
     fetchJobs();
     fetchCandidates();
     fetchApplications();
+    fetchSavedJobs();
   }, []);
 
   const fetchJobs = async () => {
@@ -91,6 +93,19 @@ const AdminDashboard: React.FC = () => {
       setApplications(res.data.applications || []);
     } catch (error) {
       console.error('Error fetching applications:', error);
+    }
+  };
+
+  const fetchSavedJobs = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      const res = await axios.get('http://localhost:5000/api/users/saved-jobs', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setSavedJobs(res.data.savedJobs || []);
+    } catch (error) {
+      console.error('Error fetching saved jobs:', error);
     }
   };
 
@@ -186,9 +201,7 @@ const AdminDashboard: React.FC = () => {
 
         <div className="nav-links">
           <Link to="/">Home</Link>
-          <a href="#jobs">Jobs</a>
-          <a href="#categories">Categories</a>
-          <a href="#about">About</a>
+          <Link to="/saved-jobs">Saved Jobs</Link>
           {isLoggedIn && <Link to="/admin">Admin</Link>}
         </div>
 
@@ -241,6 +254,12 @@ const AdminDashboard: React.FC = () => {
           onClick={() => setActiveSection('applications')}
         >
           📋 Applications
+        </button>
+        <button 
+          className={activeSection === 'saved-jobs' ? 'active' : ''}
+          onClick={() => setActiveSection('saved-jobs')}
+        >
+          🔖 Saved Jobs
         </button>
       </nav>
 
@@ -476,6 +495,75 @@ const AdminDashboard: React.FC = () => {
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+
+        {/* SAVED JOBS SECTION */}
+        {activeSection === 'saved-jobs' && (
+          <div className="section-container">
+            <div className="section-header">
+              <h2>🔖 My Saved Jobs</h2>
+              <p className="section-subtitle">{savedJobs.length} jobs bookmarked</p>
+            </div>
+
+            {savedJobs.length > 0 ? (
+              <div className="jobs-grid-admin">
+                {savedJobs.map((job) => (
+                  <div className="job-card-admin" key={job._id}>
+                    <div className="job-header-admin">
+                      <h3>{job.title}</h3>
+                      <span className={`status-badge status-${job.status}`}>{job.status}</span>
+                    </div>
+                    <p className="company-name">🏢 {job.company}</p>
+                    <p className="job-location">📍 {job.location}</p>
+                    <p className="job-desc">{job.description.substring(0, 120)}...</p>
+                    <div className="job-details-section">
+                      <span className="job-type-badge">{job.type}</span>
+                      <p className="job-salary">💰 ${job.salary.toLocaleString()}</p>
+                    </div>
+                    <div className="job-actions">
+                      <button 
+                        className="btn-view"
+                        onClick={() => {
+                          // View job details or navigate
+                          alert(`Job Details:\n${job.title} at ${job.company}`);
+                        }}
+                      >
+                        👁️ View Details
+                      </button>
+                      <button 
+                        className="btn-delete"
+                        onClick={async () => {
+                          try {
+                            const token = localStorage.getItem('token');
+                            await axios.delete(`http://localhost:5000/api/jobs/${job._id}/save`, {
+                              headers: { Authorization: `Bearer ${token}` }
+                            });
+                            fetchSavedJobs();
+                          } catch (error) {
+                            console.error('Error removing saved job:', error);
+                          }
+                        }}
+                      >
+                        🗑️ Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="empty-state-admin">
+                <div className="empty-icon">🔖</div>
+                <h3>No Saved Jobs Yet</h3>
+                <p>Browse jobs and bookmark the ones you're interested in!</p>
+                <button 
+                  className="btn-primary-admin"
+                  onClick={() => navigate('/')}
+                >
+                  Browse Jobs
+                </button>
+              </div>
+            )}
           </div>
         )}
       </main>

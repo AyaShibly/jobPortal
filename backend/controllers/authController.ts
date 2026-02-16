@@ -18,12 +18,11 @@ export const signup = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
+    // Don't hash here - let the User model's pre-save hook handle it
     const user = new User({
       username,
       email,
-      password: hashedPassword,
+      password, // Pass plain password - will be hashed by pre-save hook
     });
 
     await user.save();

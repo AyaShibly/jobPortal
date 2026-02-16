@@ -54,7 +54,7 @@ const Register: React.FC = () => {
           <p style={styles.subtitle}>Create your account to get started</p>
         </div>
 
-        <form onSubmit={handleSubmit} style={styles.form}>
+        <form onSubmit={handleSubmit} style={styles.form} autoComplete="off">
           {error && (
             <div style={styles.errorBox}>
               <span style={{ marginRight: "10px" }}></span>
@@ -81,6 +81,8 @@ const Register: React.FC = () => {
               }}
               required
               minLength={3}
+              autoComplete="off"
+              name="username-new"
             />
           </div>
 
@@ -102,6 +104,8 @@ const Register: React.FC = () => {
                 e.target.style.boxShadow = "none";
               }}
               required
+              autoComplete="off"
+              name="email-new"
             />
           </div>
 
@@ -124,6 +128,8 @@ const Register: React.FC = () => {
               }}
               required
               minLength={6}
+              autoComplete="new-password"
+              name="password-new"
             />
 
             <p style={styles.hint}>Password must be at least 6 characters</p>

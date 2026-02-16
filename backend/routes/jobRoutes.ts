@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import { body } from "express-validator";
-import { createJob, getJobs, getJobById, updateJob, deleteJob } from "../controllers/jobController";
+import { createJob, getJobs, getJobById, updateJob, deleteJob, saveJob, unsaveJob, getSavedJobs } from "../controllers/jobController";
 import { authenticateToken } from "../middleware/auth";
 import { validateRequest } from "../middleware/validateRequest";
 
@@ -30,5 +30,9 @@ router.post(
 
 router.put("/:id", authenticateToken, updateJob);      // Edit job (protected)
 router.delete("/:id", authenticateToken, deleteJob);   // Delete job (protected)
+
+// Saved jobs routes (protected)
+router.post("/:id/save", authenticateToken, saveJob);     // Save (bookmark) a job
+router.delete("/:id/save", authenticateToken, unsaveJob); // Remove job from saved list
 
 export default router;

@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/home';
 import AdminDashboard from './components/AdminDashboard';
+import SavedJobs from './components/SavedJobs';
 import './App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/saved-jobs" element={<SavedJobs />} />
         </Routes>
       </div>
     </Router>

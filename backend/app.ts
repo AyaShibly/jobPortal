@@ -14,6 +14,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/users", authRoutes);  // Also mount auth routes on /users for user-specific endpoints
 app.use("/api/jobs", jobRoutes);
 app.use("/api/candidates", candidatesRoutes);
 app.use("/api/applications", applicationRoutes);

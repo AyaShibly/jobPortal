@@ -46,7 +46,7 @@ const Login: React.FC = () => {
           <p className="login-subtitle">Sign in to your account to continue</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="login-form" autoComplete="off">
           {error && (
             <div className="login-error">
               <span style={{ marginRight: "10px" }}></span>
@@ -63,6 +63,8 @@ const Login: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="login-input"
               required
+              autoComplete="off"
+              name="email-new"
             />
           </div>
 
@@ -75,6 +77,8 @@ const Login: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="login-input"
               required
+              autoComplete="new-password"
+              name="password-new"
             />
           </div>
 

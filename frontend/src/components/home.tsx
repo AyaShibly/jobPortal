@@ -16,6 +16,7 @@ interface Job {
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [savedJobIds, setSavedJobIds] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,11 @@ export default function Home() {
     // Check login status
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
+    
+    // Fetch saved jobs if logged in
+    if (token) {
+      fetchSavedJobs();
+    }
   }, []);
 
   const fetchJobs = async () => {
@@ -32,6 +38,49 @@ export default function Home() {
       setJobs(openJobs.slice(0, 6)); // Get first 6 open jobs
     } catch (error) {
       console.error('Error fetching jobs:', error);
+    }
+  };
+
+  const fetchSavedJobs = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get('http://localhost:5000/api/users/saved-jobs', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const savedIds = res.data.savedJobs.map((job: Job) => job._id);
+      setSavedJobIds(savedIds);
+    } catch (error) {
+      console.error('Error fetching saved jobs:', error);
+    }
+  };
+
+  const toggleSaveJob = async (jobId: string) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please login to save jobs');
+        navigate('/login');
+        return;
+      }
+
+      const isSaved = savedJobIds.includes(jobId);
+      
+      if (isSaved) {
+        // Unsave the job
+        await axios.delete(`http://localhost:5000/api/jobs/${jobId}/save`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setSavedJobIds(savedJobIds.filter(id => id !== jobId));
+      } else {
+        // Save the job
+        await axios.post(`http://localhost:5000/api/jobs/${jobId}/save`, {}, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setSavedJobIds([...savedJobIds, jobId]);
+      }
+    } catch (error: any) {
+      console.error('Error toggling save job:', error);
+      alert(error.response?.data?.message || 'Error saving job');
     }
   };
 
@@ -59,6 +108,7 @@ export default function Home() {
           <a href="#jobs">Jobs</a>
           <a href="#categories">Categories</a>
           <a href="#about">About</a>
+          {isLoggedIn && <Link to="/saved-jobs">Saved Jobs</Link>}
           {isLoggedIn && <Link to="/admin">Admin</Link>}
         </div>
 
@@ -130,11 +180,24 @@ export default function Home() {
           {jobs.length > 0 ? (
             jobs.map((job) => (
               <div className="job-card" key={job._id}>
-                <h3>{job.title}</h3>
-                <p>Company: {job.company}</p>
-                <span>📍 {job.location}</span>
-                <p className="job-type">{job.type}</p>
-                <p className="job-salary">${job.salary.toLocaleString()}</p>
+                <div className="job-card-header">
+                  <h3>{job.title}</h3>
+                  {isLoggedIn && (
+                    <button 
+                      className="bookmark-btn"
+                      onClick={() => toggleSaveJob(job._id)}
+                      title={savedJobIds.includes(job._id) ? "Remove from saved" : "Save job"}
+                    >
+                      {savedJobIds.includes(job._id) ? '🔖' : '🏷️'}
+                    </button>
+                  )}
+                </div>
+                <p className="company-name">🏢 {job.company}</p>
+                <p className="job-location">📍 {job.location}</p>
+                <div className="job-details-section">
+                  <span className="job-type">{job.type}</span>
+                  <p className="job-salary">💰 ${job.salary.toLocaleString()}</p>
+                </div>
               </div>
             ))
           ) : (
